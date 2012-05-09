@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
++
+{% block chamada %}Busca{% endblock %}
++
+{% block corpo %}
+
+    <h1>Busca de publicações</h1>
+    
+    <p>
+        <a href="{% url catalogo.views.catalogar %}">Inserir nova publiação</a>
+    </p>
+    {% if erros %}
+        <ul>
+            {% for erro in erros %}
+            <li>{{ erro }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form action="" method="get">
+        <input type="text" name="q" value="{{q}}">
+        <input type="submit" value="Buscar">
+    </form>
+<hr>    
+   
+{% if pesquisa %}
+    {% if publicacoes %}
+
+        <h2>{{publicacoes|length}} 
+            publicaç{{publicacoes|pluralize:"ão,ões"}} encontrada{{publicacoes|pluralize}}.</h2>
+   
+        <table>   
+            {% for pub in publicacoes %}
+                <tr>
+                    <td>{{pub.id_padrao}}</td>
+                    <td><a href="{% url catalogo.views.editar pub.pk %}">{{pub.titulo}}</a></td>
+            
+                </tr>
+            {% endfor %}
+        </table>   
+    {% else %}
+        Nenhuma publicação encontrada com o termo '{{q}}'.
+    {% endif %}   
+{% endif %}   
+    
+{% endblock corpo %}
